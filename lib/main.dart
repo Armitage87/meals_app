@@ -8,7 +8,7 @@ import 'package:meals_app/screens/tabs_screen.dart';
 import 'models/meal.dart';
 import 'screens/filters_screen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
     'vegetarian': false
   };
   List<Meal> _availableMeals = DUMMY_MEALS;
+  List<Meal> _favouritedMeals = [];
 
   void _setFilters(Map<String, bool> filterData) {
     setState(() {
@@ -48,42 +49,62 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _toggleFavourite(String mealId) {
+    final existingIndex =
+        _favouritedMeals.indexWhere((element) => element.id == mealId);
+    if (existingIndex >= 0) {
+      setState(() {
+        _favouritedMeals.removeAt(existingIndex);
+      });
+    } else {
+      setState(() {
+        _favouritedMeals
+            .add(DUMMY_MEALS.firstWhere((element) => element.id == mealId));
+      });
+    }
+  }
+
+  bool _isMealFavourite(String id) {
+    return _favouritedMeals.any((element) => element.id == id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Deli Meals',
       theme: ThemeData(
-          canvasColor: Color.fromRGBO(255, 254, 229, 1),
+          canvasColor: const Color.fromRGBO(255, 254, 229, 1),
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lime)
               .copyWith(secondary: Colors.blueGrey),
           fontFamily: 'Raleway',
           textTheme: ThemeData.light().textTheme.copyWith(
-              bodyLarge: TextStyle(
+              bodyLarge: const TextStyle(
                 color: Color.fromRGBO(20, 51, 51, 1),
               ),
-              bodyMedium: TextStyle(
+              bodyMedium: const TextStyle(
                 color: Color.fromRGBO(20, 51, 51, 1),
               ),
-              titleLarge: TextStyle(
+              titleLarge: const TextStyle(
                 fontSize: 20,
                 fontFamily: 'RobotoCondensed',
                 fontWeight: FontWeight.bold,
               ))),
       //home: const CategoriesScreen(),
       routes: {
-        '/': (ctx) => TabsScreen(),
+        '/': (ctx) => TabsScreen(favouriteMeals: _favouritedMeals),
         '/category-meals': (ctx) =>
             CategoryMealsScreen(availableMeals: _availableMeals),
-        MealDetailScreen.routeName: (ctx) => MealDetailScreen(),
+        MealDetailScreen.routeName: (ctx) => MealDetailScreen(
+            toggleFavourite: _toggleFavourite, isFavourite: _isMealFavourite),
         FiltersScreen.routeName: (ctx) =>
             FiltersScreen(saveFilters: _setFilters, currentFilters: _filters)
       },
       onGenerateRoute: (settings) {
-        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+        return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
       },
       onUnknownRoute: (settings) {
-        return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
+        return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
       },
     );
   }
@@ -101,9 +122,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deli Meals'),
+        title: const Text('Deli Meals'),
       ),
-      body: Center(child: Text('Navigation time!')),
+      body: const Center(child: Text('Navigation time!')),
     );
   }
 }
