@@ -1,5 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import '../dummy_data.dart';
 
@@ -12,7 +10,7 @@ class MealDetailScreen extends StatelessWidget {
 
   Widget buildSectionTitle(BuildContext context, String text) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Text(
         text,
         style: Theme.of(context).textTheme.titleLarge,
@@ -27,8 +25,8 @@ class MealDetailScreen extends StatelessWidget {
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       height: 150,
       width: 300,
       child: child,
@@ -41,11 +39,11 @@ class MealDetailScreen extends StatelessWidget {
     final selectedMeal = DUMMY_MEALS.firstWhere((meal) => meal.id == mealId);
     return Scaffold(
       appBar: AppBar(
-        title: Text('${selectedMeal.title}'),
+        title: Text(selectedMeal.title),
       ),
       body: Column(
         children: <Widget>[
-          Container(
+          SizedBox(
             height: 300,
             width: double.infinity,
             child: Image.network(
@@ -59,7 +57,8 @@ class MealDetailScreen extends StatelessWidget {
               itemBuilder: (ctx, index) => Card(
                 color: Theme.of(context).colorScheme.secondary,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   child: Text(
                     selectedMeal.ingredients[index],
                   ),
@@ -73,7 +72,7 @@ class MealDetailScreen extends StatelessWidget {
             ListView.builder(
               itemBuilder: (ctx, index) => ListTile(
                 leading: CircleAvatar(
-                  child: Text('\ ${(index + 1)}'),
+                  child: Text('${(index + 1)}'),
                 ),
                 title: Text(selectedMeal.steps[index]),
               ),
