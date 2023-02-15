@@ -1,5 +1,3 @@
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/material.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
@@ -43,10 +41,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Filter'),
+          title: const Text('Filter'),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.save),
+              icon: const Icon(Icons.save),
               onPressed: () {
                 final selectedFilters = {
                   'gluten': _glutenFree,
@@ -59,11 +57,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
             )
           ],
         ),
-        drawer: MainDrawer(),
+        drawer: const MainDrawer(),
         body: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Text(
                 'Adjust your meal selection',
                 style: Theme.of(context).textTheme.bodyLarge,
